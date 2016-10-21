@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+
+    <TextView
+        android:textColor="@color/txtColor"
+        android:id="@+id/materia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:text="Matéria"
+        android:textAppearance="?android:textAppearanceMedium" />
+
+    <TextView
+        android:textColor="@color/txtColor"
+        android:id="@+id/falta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Falta"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="54dp" />
+
+    <TextView
+        android:textColor="@color/txtColor"
+        android:id="@+id/nota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nota"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

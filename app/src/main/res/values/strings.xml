@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Boletim Escolar</string>
+
+
+    <string name="user_not_found">Nenhum aluno cadastrado com este RA</string>
+    <string name="fields">Por favor preencher os campos</string>
+    <string name="portugues">Português</string>
+    <string name="matematica">Matemática</string>
+    <string name="ingles">Inglês</string>
+    <string name="forbidden">Acesso negado do servidor</string>
+    <string name="nota_tirar">Precisa tirar:</string>
+    <string name="not_connected">Você não está connectado à internet</string>
+    <string name="no_connection">Sem conexão com a internet</string>
+    <string name="bimestre">Bimestre</string>
+    <string name="entrar">Entrar</string>
+    <string name="ra">R.A</string>
+    <string name="geografia">Geografia</string>
+    <string name="historia">História</string>
+    <string name="artes">Artes</string>
+    <string name="biologia">Biologia</string>
+    <string name="sociologia">Sociologia</string>
+    <string name="fisica">Física</string>
+    <string name="quimica">Química</string>
+    <string name="exames_data">Próximos exames</string>
+    <string name="sem_provas">Está sem provas para este bimestre</string>
+    <string name="precisa_recuperar">O que eu preciso recuperar:</string>
+
+    <string-array name="opcoes_ano">
+
+        <item>2010</item>
+        <item>2011</item>
+        <item>2012</item>
+        <item>2013</item>
+        <item>2014</item>
+        <item>2015</item>
+        <item>2016</item>
+
+    </string-array>
+
+    <string-array name="opcoes_bimestre">
+
+        <item>1º Bimestre</item>
+        <item>2º Bimestre</item>
+        <item>3º Bimestre</item>
+        <item>4º Bimestre</item>
+
+    </string-array>
+
+
+
+
+
+</resources>

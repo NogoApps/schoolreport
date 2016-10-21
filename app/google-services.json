@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "25748314341",
+    "firebase_url": "https://appescolar-7ca99.firebaseio.com",
+    "project_id": "appescolar-7ca99",
+    "storage_bucket": "appescolar-7ca99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25748314341:android:63f1893af4c491ae",
+        "android_client_info": {
+          "package_name": "boletimescolar.info.boletimelavamosnos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25748314341-nekdg4mg50sh0p7nhbf0s784gucpnsmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcujRVO8wlDrb03i5Hi_LFx9haNtMszio"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
