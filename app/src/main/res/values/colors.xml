@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorAccent">#03A9F4</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="red">#F44336</color>
+    <color name="background">#ffffff</color>
+    <color name="lightGrey">#E0E0E0</color>
+    <color name="txtColor">#000000</color>
+
+    <color name="loginBackground">#90CAF9</color>
+</resources>
