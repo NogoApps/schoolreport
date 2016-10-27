@@ -1,48 +1,37 @@
 package boletimescolar.info.boletimelavamosnos.view.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import boletimescolar.info.boletimelavamosnos.R;
-import boletimescolar.info.boletimelavamosnos.controler.networkcheckthread.LoadToSqlite;
 import boletimescolar.info.boletimelavamosnos.model.domain.MediaDomain;
 import boletimescolar.info.boletimelavamosnos.model.domain.ProvaDomain;
 import boletimescolar.info.boletimelavamosnos.model.fragmentmodel.Tab1Model;
-
-import boletimescolar.info.boletimelavamosnos.model.sharedpreferences.AlunoShared;
-import boletimescolar.info.boletimelavamosnos.model.sharedpreferences.TokenShared;
 import boletimescolar.info.boletimelavamosnos.sqlite.adapter.SqliteNotasAdapter;
-import boletimescolar.info.boletimelavamosnos.view.activities.Pesquisa;
 import boletimescolar.info.boletimelavamosnos.view.adapters.RecyclerViewAdapter;
 import boletimescolar.info.boletimelavamosnos.view.adapters.RecylerViewAdapter2;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by hp1 on 21-01-2015.
@@ -65,7 +54,6 @@ public class Tab1 extends Fragment {
     //RecyclerView2 Gorick
 
 
-
     private RecyclerView recyclerView2;
     private RecylerViewAdapter2 recyclerViewAdapter2;
     private RecyclerView.LayoutManager layoutManager2;
@@ -75,16 +63,15 @@ public class Tab1 extends Fragment {
 
 
     //Spinner
-    private Spinner spinner;
+    private Spinner spinnerBimestre;
     private ArrayAdapter<CharSequence> spinnerAdapter;
 
 
-
-
-
-    //Threads
-
-
+    //Button
+    private Button pesquisar;
+    private PopupWindow popUpWindowPesquisa;
+    private LayoutInflater layoutInflaterPesquisa;
+    private RelativeLayout relativeLayoutPesquisa;
 
 
     //ProgressBar
@@ -101,7 +88,6 @@ public class Tab1 extends Fragment {
         View v = inflater.inflate(R.layout.fragment_tab1, container, false);
 
 
-
         instanceCrap(v);
 
 
@@ -109,12 +95,6 @@ public class Tab1 extends Fragment {
 
 
 //        tab1Model.calcularMedia(provaArray, mediaArray);
-
-
-
-
-
-
 
 
         //Botão pesquisar
@@ -152,49 +132,70 @@ public class Tab1 extends Fragment {
 
         //Instanciar o model
 
-        tab1Model = new Tab1Model(provaArray, mediaArray,getActivity(), recyclerViewAdapter,recyclerViewAdapter2,recyclerView,recyclerView2,progressBar);
+        tab1Model = new Tab1Model(provaArray, mediaArray, getActivity(), recyclerViewAdapter, recyclerViewAdapter2, recyclerView, recyclerView2, progressBar);
 
 
         SqliteNotasAdapter sqliteAdapter = new SqliteNotasAdapter(getActivity());
         sqliteAdapter.openDB();
 
 
-        //Spinner
-        spinner = (Spinner) v.findViewById(R.id.bimestre_spinner);
-        spinnerAdapter = ArrayAdapter.createFromResource(getActivity(),R.array.opcoes_bimestre, R.layout.spinner_item);
+        //Button pesquisar and popup
+        pesquisar = (Button) v.findViewById(R.id.pesquisar);
+        relativeLayoutPesquisa = (RelativeLayout) v.findViewById(R.id.relative);
+        pesquisar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutInflaterPesquisa = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                ViewGroup containerPesquisa = (ViewGroup) layoutInflaterPesquisa.inflate(R.layout.activity_pesquisa, null);
+                popUpWindowPesquisa = new PopupWindow(containerPesquisa, 600, 800, true);
+                popUpWindowPesquisa.showAtLocation(relativeLayoutPesquisa, Gravity.NO_GRAVITY, 500, 500);
+                containerPesquisa.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        popUpWindowPesquisa.dismiss();
+                        return true;
+
+                    }
+                });
+            }
+        });
+
+        //SpinnerBimestre
+        spinnerBimestre = (Spinner) v.findViewById(R.id.bimestre_spinner);
+        spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.opcoes_bimestre, R.layout.spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerBimestre.setAdapter(spinnerAdapter);
+        spinnerBimestre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 int bimestre;
 
-                switch (i){
+                switch (i) {
 
                     case 0:
 
-                        escolheQualMerdaChamar(bimestre = 1);
-                        tab1Model.calcularMedia(provaArray,mediaArray);
+                        chooseItemBimestre(bimestre = 1);
+                        tab1Model.calcularMedia(provaArray, mediaArray);
 
                         break;
                     case 1:
 
-                        escolheQualMerdaChamar(bimestre = 2);
-                        tab1Model.calcularMedia(provaArray,mediaArray);
+                        chooseItemBimestre(bimestre = 2);
+                        tab1Model.calcularMedia(provaArray, mediaArray);
 
                         break;
                     case 2:
 
-                        escolheQualMerdaChamar(bimestre = 3);
-                        tab1Model.calcularMedia(provaArray,mediaArray);
+                        chooseItemBimestre(bimestre = 3);
+                        tab1Model.calcularMedia(provaArray, mediaArray);
 
 
                         break;
                     case 3:
 
-                        escolheQualMerdaChamar(bimestre = 4);
-                        tab1Model.calcularMedia(provaArray,mediaArray);
+                        chooseItemBimestre(bimestre = 4);
+                        tab1Model.calcularMedia(provaArray, mediaArray);
 
                         break;
 
@@ -204,6 +205,7 @@ public class Tab1 extends Fragment {
 
             }
 
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -211,14 +213,10 @@ public class Tab1 extends Fragment {
         });
 
 
-
-
-
-
     }
 
 
-    public void escolheQualMerdaChamar(int bimestre) {
+    public void chooseItemBimestre(int bimestre) {
 
 
         SqliteNotasAdapter sqliteAdapter = new SqliteNotasAdapter(getActivity());
@@ -230,28 +228,24 @@ public class Tab1 extends Fragment {
         } else {
 
 
-            tab1Model.listarNotasWhere(bimestre,provaArray);
+            tab1Model.listarNotasWhere(bimestre, provaArray);
 
 
         }
 
     }
 
-        public void pequenoCheckDeArray(){
+    public void pequenoCheckDeArray() {
 
 
-            for(ProvaDomain provaDomain : provaArray){
+        for (ProvaDomain provaDomain : provaArray) {
 
-                Toast.makeText(getActivity(), String.valueOf(provaDomain.getBimestre()), Toast.LENGTH_LONG).show();
-
-
-            }
+            Toast.makeText(getActivity(), String.valueOf(provaDomain.getBimestre()), Toast.LENGTH_LONG).show();
 
 
-    }
-
-
+        }
 
 
     }
+}
 
