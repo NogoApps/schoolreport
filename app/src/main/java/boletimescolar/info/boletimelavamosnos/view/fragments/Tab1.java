@@ -1,9 +1,10 @@
 package boletimescolar.info.boletimelavamosnos.view.fragments;
 
-import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,36 +19,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import boletimescolar.info.boletimelavamosnos.R;
-import boletimescolar.info.boletimelavamosnos.controler.networkcheckthread.LoadToSqlite;
+import boletimescolar.info.boletimelavamosnos.controler.fragmentcontroller.Tab1Controller;
+import boletimescolar.info.boletimelavamosnos.model.domain.BimestreAnoDomain;
 import boletimescolar.info.boletimelavamosnos.model.domain.MediaDomain;
 import boletimescolar.info.boletimelavamosnos.model.domain.ProvaDomain;
 import boletimescolar.info.boletimelavamosnos.model.fragmentmodel.Tab1Model;
 
-import boletimescolar.info.boletimelavamosnos.model.sharedpreferences.AlunoShared;
-import boletimescolar.info.boletimelavamosnos.model.sharedpreferences.TokenShared;
 import boletimescolar.info.boletimelavamosnos.sqlite.adapter.SqliteNotasAdapter;
-import boletimescolar.info.boletimelavamosnos.view.activities.Pesquisa;
 import boletimescolar.info.boletimelavamosnos.view.adapters.RecyclerViewAdapter;
 import boletimescolar.info.boletimelavamosnos.view.adapters.RecylerViewAdapter2;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import boletimescolar.info.boletimelavamosnos.view.popup.PopUp;
 
 /**
  * Created by hp1 on 21-01-2015.
  */
-public class Tab1 extends Fragment {
+public class Tab1 extends Fragment implements View.OnClickListener {
 
 
     private Tab1Model tab1Model;
@@ -79,11 +69,18 @@ public class Tab1 extends Fragment {
     private ArrayAdapter<CharSequence> spinnerAdapter;
 
 
+    private Spinner spinner2;
+    private ArrayAdapter<BimestreAnoDomain> spinnerAdapter2;
+    //Controller
+
+    private Tab1Controller controller;
+    private List<BimestreAnoDomain> anoList = new ArrayList<>();
 
 
 
-    //Threads
+   //Buttons
 
+    private Button pesquisar;
 
 
 
@@ -95,6 +92,11 @@ public class Tab1 extends Fragment {
 
 
     private TextView sem_provas;
+
+
+    private String bimestre;
+    private String bimestre1;
+    private String ano;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -159,56 +161,67 @@ public class Tab1 extends Fragment {
         sqliteAdapter.openDB();
 
 
+        //Controller
+
+        controller = new Tab1Controller();
+
+
+
+
         //Spinner
         spinner = (Spinner) v.findViewById(R.id.bimestre_spinner);
         spinnerAdapter = ArrayAdapter.createFromResource(getActivity(),R.array.opcoes_bimestre, R.layout.spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> parent,
+                                       View view, int pos, long id) {
 
-                int bimestre;
-
-                switch (i){
-
-                    case 0:
-
-                        escolheQualMerdaChamar(bimestre = 1);
-                        tab1Model.calcularMedia(provaArray,mediaArray);
-
-                        break;
-                    case 1:
-
-                        escolheQualMerdaChamar(bimestre = 2);
-                        tab1Model.calcularMedia(provaArray,mediaArray);
-
-                        break;
-                    case 2:
-
-                        escolheQualMerdaChamar(bimestre = 3);
-                        tab1Model.calcularMedia(provaArray,mediaArray);
-
-
-                        break;
-                    case 3:
-
-                        escolheQualMerdaChamar(bimestre = 4);
-                        tab1Model.calcularMedia(provaArray,mediaArray);
-
-                        break;
-
-
-                }
-
-
+                bimestre = parent.getItemAtPosition(pos).toString();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
 
             }
         });
+
+
+        escolheQualMerdaChamar();
+
+
+        //Spinner2
+        spinner2 = (Spinner) v.findViewById(R.id.ano_spinner);
+        spinnerAdapter2 = new ArrayAdapter<>(getActivity(),R.layout.spinner_item, anoList);
+        spinnerAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(spinnerAdapter2);
+
+
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent,
+                                       View view, int pos, long id) {
+
+                ano = parent.getItemAtPosition(pos).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+
+
+
+
+        pesquisar = (Button) v.findViewById(R.id.pesquisar);
+        pesquisar.setOnClickListener(this);
 
 
 
@@ -218,22 +231,38 @@ public class Tab1 extends Fragment {
     }
 
 
-    public void escolheQualMerdaChamar(int bimestre) {
+    public void escolheQualMerdaChamar() {
 
 
         SqliteNotasAdapter sqliteAdapter = new SqliteNotasAdapter(getActivity());
         final boolean check = sqliteAdapter.notasIsEmpty();
         if (check == true) {
-            tab1Model.provaFetch(bimestre);
-
+            tab1Model.provaFetch();
+            tab1Model.calcularMedia(provaArray,mediaArray);
 
         } else {
 
 
-            tab1Model.listarNotasWhere(bimestre,provaArray);
+            tab1Model.listarNotas(provaArray);
+            tab1Model.calcularMedia(provaArray,mediaArray);
+            Log.d("ViewHolder", "AquiChamado");
+
+            for(ProvaDomain p : provaArray){
+
+                Log.d("Array", String.valueOf(p.getNota()));
+
+            }
+
+
 
 
         }
+
+        anoList = controller.oQueEscolher(getActivity(), spinnerAdapter2, spinner);
+
+
+
+
 
     }
 
@@ -251,7 +280,20 @@ public class Tab1 extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        spinnerAdapter2.notifyDataSetChanged();
+        PopUp popUp = new PopUp();
+        popUp.show(getFragmentManager(),"MyPopUp");
+
+        //Put the value
+
+        Bundle args = new Bundle();
+        args.putString("ano", ano);
+        args.putString("bimestre", bimestre);
+        popUp.setArguments(args);
 
 
     }
+}
 

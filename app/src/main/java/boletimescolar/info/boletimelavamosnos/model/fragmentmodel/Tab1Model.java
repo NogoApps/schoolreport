@@ -3,8 +3,6 @@ package boletimescolar.info.boletimelavamosnos.model.fragmentmodel;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -18,17 +16,12 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import boletimescolar.info.boletimelavamosnos.R;
-import boletimescolar.info.boletimelavamosnos.controler.networkcheckthread.LoadToSqlite;
-import boletimescolar.info.boletimelavamosnos.controler.volleythread.ProvasVolleyThread;
+import boletimescolar.info.boletimelavamosnos.networking.ProvasVolleyThread;
 import boletimescolar.info.boletimelavamosnos.model.domain.MediaDomain;
 import boletimescolar.info.boletimelavamosnos.model.domain.ProvaDomain;
-import boletimescolar.info.boletimelavamosnos.model.ips.Ip;
 import boletimescolar.info.boletimelavamosnos.model.sharedpreferences.AlunoShared;
 import boletimescolar.info.boletimelavamosnos.singleton.VolleySingleton;
 import boletimescolar.info.boletimelavamosnos.sqlite.adapter.SqliteNotasAdapter;
@@ -42,7 +35,6 @@ public class Tab1Model {
 
 
     private Context ctx;
-    private Map<String, String> params;
     private ProvaDomain provaDomain = new ProvaDomain();
     private RecyclerView recyclerView;
     private RecyclerView recyclerView2;
@@ -74,22 +66,20 @@ public class Tab1Model {
 
 
     //Buscar as provas
-    public void provaFetch(final int bimestre) {
+    public void provaFetch() {
 
-        params = new HashMap<String, String>();
-        params.put("acao", "prova");
-        params.put("id_aluno", String.valueOf(AlunoShared.getIdUser(ctx)));
 
         Log.d("MyLog", "Chamou aqui");
         progressBar.setVisibility(View.VISIBLE);
 
 
 
-        ProvasVolleyThread provasVolleyThread = new ProvasVolleyThread(ctx,provaArray, recyclerViewAdapter, provaDomain, Request.Method.POST, Ip.ip, params, new Response.Listener<JSONObject>() {
+        ProvasVolleyThread provasVolleyThread = new ProvasVolleyThread(ctx,provaArray, recyclerViewAdapter, provaDomain, Request.Method.GET, "http://nogoapps.com/appEscolarRestApi/public/prova/"+String.valueOf(AlunoShared.getIdUser(ctx)), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
-                listarNotasWhere(bimestre,provaArray);
+//                listarNotasWhere(bimestre,provaArray);
+                listarNotas(provaArray);
                 calcularMedia(provaArray,mediaArray);
 
                 progressBar.setVisibility(View.GONE);
@@ -131,10 +121,8 @@ public class Tab1Model {
 
 
 
-        Log.d("Arrays", "------Prova Array--------");
-        for(ProvaDomain provaDomain : provaArray) {
-            Log.d("Arrays", String.valueOf(provaDomain.getMateria()));
-        }
+
+
 
 
         for(ProvaDomain provaDomain : provaArray){
@@ -184,7 +172,7 @@ public class Tab1Model {
     public void listarNotas(List<ProvaDomain> provaArray){
 
 
-        Toast.makeText(ctx, "sqlite called", Toast.LENGTH_SHORT).show();
+
 
         provaArray.clear();
 
@@ -196,7 +184,7 @@ public class Tab1Model {
         while (cursor.moveToNext()) {
 
 
-            ProvaDomain provaDomain = new ProvaDomain(cursor.getLong(0), cursor.getInt(1), cursor.getDouble(2), cursor.getInt(3), cursor.getInt(4));
+            ProvaDomain provaDomain = new ProvaDomain(cursor.getLong(0), cursor.getInt(1), cursor.getDouble(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5));
 
 
 
@@ -205,11 +193,12 @@ public class Tab1Model {
 
         }
 
-        if (!(provaArray.size() < 1)) {
 
 
+
+            recyclerView.setAdapter(recyclerViewAdapter);
             recyclerViewAdapter.notifyDataSetChanged();
-        }
+
 
 
 

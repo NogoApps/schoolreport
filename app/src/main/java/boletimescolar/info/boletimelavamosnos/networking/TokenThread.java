@@ -1,4 +1,4 @@
-package boletimescolar.info.boletimelavamosnos.controler.volleythread;
+package boletimescolar.info.boletimelavamosnos.networking;
 
 import android.content.Context;
 

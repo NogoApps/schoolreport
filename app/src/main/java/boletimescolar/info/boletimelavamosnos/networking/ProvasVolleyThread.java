@@ -1,4 +1,4 @@
-package boletimescolar.info.boletimelavamosnos.controler.volleythread;
+package boletimescolar.info.boletimelavamosnos.networking;
 
 import android.content.Context;
 import android.util.Log;
@@ -28,16 +28,14 @@ import boletimescolar.info.boletimelavamosnos.view.adapters.RecyclerViewAdapter;
 public class ProvasVolleyThread extends Request<JSONObject> {
 
     private Response.Listener<JSONObject> response;
-    private Map<String, String> params;
     private ProvaDomain provaDomain;
     private RecyclerViewAdapter recyclerViewAdapter;
     private List<ProvaDomain> provaArray;
     private Context context;
 
 
-    public ProvasVolleyThread(Context context, List<ProvaDomain> provaArray, RecyclerViewAdapter recyclerViewAdapter, ProvaDomain provaDomain, int method, String url, Map<String, String> params, Response.Listener<JSONObject> response, Response.ErrorListener listener) {
+    public ProvasVolleyThread(Context context, List<ProvaDomain> provaArray, RecyclerViewAdapter recyclerViewAdapter, ProvaDomain provaDomain, int method, String url, Response.Listener<JSONObject> response, Response.ErrorListener listener) {
         super(method, url, listener);
-        this.params = params;
         this.response = response;
         this.provaDomain = provaDomain;
         this.recyclerViewAdapter = recyclerViewAdapter;
@@ -46,10 +44,7 @@ public class ProvasVolleyThread extends Request<JSONObject> {
         Log.d("TesteLog", "Chamado");
     }
 
-    @Override
-    public Map<String, String> getParams() throws AuthFailureError {
-        return params;
-    }
+
 
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
@@ -75,6 +70,7 @@ public class ProvasVolleyThread extends Request<JSONObject> {
                 provaDomain2.setMateria(Integer.valueOf(array.getString("MATERIA")));
                 provaDomain2.setFaltas(Integer.valueOf(array.getString("FALTAS")));
                 provaDomain2.setBimestre(Integer.valueOf(array.getString("BIMESTRE")));
+                provaDomain2.setData(array.getString("DATA"));
 
 
 

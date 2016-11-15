@@ -5,6 +5,7 @@
     android:fillViewport="true">
 
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -12,24 +13,12 @@
         android:background="@color/background">
 
 
-        <Spinner
-
-            android:id="@+id/bimestre_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="1dp"
-
-            ></Spinner>
 
         <RelativeLayout
             android:id="@+id/list_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/bimestre_spinner"
             android:layout_marginTop="10dp">
 
             <TextView
@@ -135,6 +124,39 @@
             <!--android:layout_below="@+id/recycler_view2"-->
             <!--android:layout_centerHorizontal="true" />-->
         </RelativeLayout>
+        <Spinner
+
+            android:id="@+id/bimestre_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/list_layout"
+
+            ></Spinner>
+        <Spinner
+
+            android:id="@+id/ano_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/list_layout"
+
+            ></Spinner>
+
+
+        <Button
+            android:id="@+id/pesquisar"
+            android:text="@string/pesquisar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bimestre_spinner"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_login"
+            android:textColor="@color/white"
+            />
+
 
         <View
 

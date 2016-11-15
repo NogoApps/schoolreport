@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:text="1º"
-        android:textColor="@color/txtColor"
+
         android:textSize="14dp"
         android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
         android:layout_marginEnd="12dp"
         android:layout_toRightOf="@+id/bimestre"
         android:text="Bimestre:"
-        android:textColor="@color/txtColor"
+
         android:textSize="14dp"
         android:textStyle="bold" />
 
@@ -38,7 +38,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:text="História"
-        android:textColor="@color/txtColor"
+
         android:textSize="14dp" />
 
     <TextView
@@ -50,7 +50,7 @@
         android:layout_marginEnd="20dp"
 
         android:text="10/03/2012"
-        android:textColor="@color/txtColor"
+
         android:textSize="14dp"
         />
 

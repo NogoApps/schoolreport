@@ -2,8 +2,6 @@ package boletimescolar.info.boletimelavamosnos.model.fragmentmodel;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
-import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -11,13 +9,10 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import boletimescolar.info.boletimelavamosnos.controler.volleythread.ExamesVolleyThread;
+import boletimescolar.info.boletimelavamosnos.networking.ExamesVolleyThread;
 import boletimescolar.info.boletimelavamosnos.model.domain.ExameDomain;
-import boletimescolar.info.boletimelavamosnos.model.ips.Ip;
 import boletimescolar.info.boletimelavamosnos.singleton.VolleySingleton;
 import boletimescolar.info.boletimelavamosnos.sqlite.adapter.SqliteExamesAdapter;
 import boletimescolar.info.boletimelavamosnos.view.adapters.RecyclerViewAdapter3;
@@ -29,7 +24,6 @@ import boletimescolar.info.boletimelavamosnos.view.adapters.RecyclerViewAdapter3
 public class Tab2Model {
 
     private Context ctx;
-    private Map<String, String> params;
     private SqliteExamesAdapter sqliteExamesAdapter;
     private List<ExameDomain> exameArray;
     private RecyclerViewAdapter3 recyclerViewAdapter3;
@@ -48,8 +42,6 @@ public class Tab2Model {
     //Buscar as provas
     public void exameFetch() {
 
-        params = new HashMap<String, String>();
-        params.put("acao", "exame");
 
 
 
@@ -57,7 +49,7 @@ public class Tab2Model {
 
 
 
-        ExamesVolleyThread examesVolleyThread = new ExamesVolleyThread(ctx, Request.Method.POST, Ip.ip, params, new Response.Listener<JSONObject>() {
+        ExamesVolleyThread examesVolleyThread = new ExamesVolleyThread(ctx, Request.Method.GET, "http://nogoapps.com/appEscolarRestApi/public/exames", new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 

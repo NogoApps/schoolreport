@@ -14,13 +14,9 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import boletimescolar.info.boletimelavamosnos.R;
-import boletimescolar.info.boletimelavamosnos.controler.volleythread.LoginVolleyThread;
+import boletimescolar.info.boletimelavamosnos.networking.LoginVolleyThread;
 import boletimescolar.info.boletimelavamosnos.model.domain.AlunoDomain;
-import boletimescolar.info.boletimelavamosnos.model.ips.Ip;
 import boletimescolar.info.boletimelavamosnos.model.sharedpreferences.AlunoShared;
 import boletimescolar.info.boletimelavamosnos.singleton.VolleySingleton;
 import boletimescolar.info.boletimelavamosnos.view.activities.MainActivity;
@@ -31,7 +27,6 @@ import boletimescolar.info.boletimelavamosnos.view.activities.MainActivity;
 public class LoginModel {
 
     private Context ctx;
-    private Map<String, String> params;
     private AlunoDomain alunoDomain;
     private AlunoShared alunoShared;
     private ProgressDialog progressDialog;
@@ -51,9 +46,7 @@ public class LoginModel {
     //Autenticação Login
     public void loginAut(String raAluno, final Activity activity) {
 
-        params = new HashMap<String, String>();
-        params.put("acao", "aluno");
-        params.put("ra", raAluno);
+
 
         progressDialog = new ProgressDialog(ctx);
         progressDialog.setMessage("Fazendo Login....");
@@ -61,7 +54,7 @@ public class LoginModel {
 
 
 
-        LoginVolleyThread loginVolleyThread = new LoginVolleyThread(alunoDomain, Request.Method.POST, Ip.ip, params, new Response.Listener<JSONObject>() {
+        LoginVolleyThread loginVolleyThread = new LoginVolleyThread(alunoDomain, Request.Method.GET, "http://nogoapps.com/appEscolarRestApi/public/aluno/" + raAluno, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 

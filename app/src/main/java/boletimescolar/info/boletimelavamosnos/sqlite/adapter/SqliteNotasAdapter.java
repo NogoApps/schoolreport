@@ -68,6 +68,7 @@ public class SqliteNotasAdapter {
         cv.put(NotasConstants.getNOTAS(), provaDomain.getNota());
         cv.put(NotasConstants.getFALTAS(), provaDomain.getFaltas());
         cv.put(NotasConstants.getBIMESTRE(), provaDomain.getBimestre());
+        cv.put(NotasConstants.getDATA(), provaDomain.getData());
 
 
         long id =  db.insert(NotasConstants.getTABLE(), null, cv);
@@ -81,7 +82,7 @@ public class SqliteNotasAdapter {
     public Cursor listarCompras() {
         Log.d("Sqlite", "listarComprasChamado");
 
-        String[] columns={NotasConstants.getID(), NotasConstants.getMATERIA(), NotasConstants.getNOTAS(),NotasConstants.getFALTAS(), NotasConstants.getBIMESTRE()};
+        String[] columns={NotasConstants.getID(), NotasConstants.getMATERIA(), NotasConstants.getNOTAS(),NotasConstants.getFALTAS(), NotasConstants.getBIMESTRE(), NotasConstants.getDATA()};
 
         return db.query(NotasConstants.getTABLE(), columns,null,null,null,null,null,null);
 
@@ -91,7 +92,7 @@ public class SqliteNotasAdapter {
         openDB();
         provaArray.clear();
 
-        String[] columns={NotasConstants.getID(), NotasConstants.getMATERIA(), NotasConstants.getNOTAS(),NotasConstants.getFALTAS(), NotasConstants.getBIMESTRE()};
+        String[] columns={NotasConstants.getID(), NotasConstants.getMATERIA(), NotasConstants.getNOTAS(),NotasConstants.getFALTAS(), NotasConstants.getBIMESTRE(),NotasConstants.getDATA()};
 
         Cursor cursor = db.query(NotasConstants.getTABLE(), columns,NotasConstants.getBIMESTRE()+" = '"+bimestre+"'",null,null,null,null);
 
@@ -101,7 +102,7 @@ public class SqliteNotasAdapter {
         while (cursor.moveToNext()) {
 
 
-            ProvaDomain provaDomain = new ProvaDomain(cursor.getLong(0), cursor.getInt(1), cursor.getDouble(2), cursor.getInt(3), cursor.getInt(4));
+            ProvaDomain provaDomain = new ProvaDomain(cursor.getLong(0), cursor.getInt(1), cursor.getDouble(2), cursor.getInt(3), cursor.getInt(4), cursor.getString(5));
 
 
 

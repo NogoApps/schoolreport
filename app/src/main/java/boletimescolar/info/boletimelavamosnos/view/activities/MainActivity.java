@@ -1,6 +1,5 @@
 package boletimescolar.info.boletimelavamosnos.view.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -9,16 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import boletimescolar.info.boletimelavamosnos.R;
-import boletimescolar.info.boletimelavamosnos.controler.networkcheckthread.LoadToSqlite;
 import boletimescolar.info.boletimelavamosnos.controler.networkcheckthread.Networkcheck;
 import boletimescolar.info.boletimelavamosnos.controler.networkcheckthread.TokeCheckThread;
-import boletimescolar.info.boletimelavamosnos.controler.volleythread.TokenThread;
 import boletimescolar.info.boletimelavamosnos.model.activitymodel.MainActivityModel;
 import boletimescolar.info.boletimelavamosnos.model.sharedpreferences.AlunoShared;
 import boletimescolar.info.boletimelavamosnos.model.sharedpreferences.TokenShared;
+import boletimescolar.info.boletimelavamosnos.sqlite.adapter.SqliteDataAdapter;
 import boletimescolar.info.boletimelavamosnos.sqlite.adapter.SqliteExamesAdapter;
 import boletimescolar.info.boletimelavamosnos.sqlite.adapter.SqliteNotasAdapter;
 import boletimescolar.info.boletimelavamosnos.view.adapters.ViewPagerAdapter;
@@ -164,8 +161,10 @@ public class MainActivity extends AppCompatActivity {
 
         SqliteNotasAdapter adapter = new SqliteNotasAdapter(this);
         SqliteExamesAdapter sqliteExamesAdapter = new SqliteExamesAdapter(this);
+        SqliteDataAdapter sqliteDataAdapter = new SqliteDataAdapter(this);
         adapter.apagarTudo();
         sqliteExamesAdapter.apagarTudo();
+        sqliteDataAdapter.apagarTudo();
         AlunoShared.delete(this);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);

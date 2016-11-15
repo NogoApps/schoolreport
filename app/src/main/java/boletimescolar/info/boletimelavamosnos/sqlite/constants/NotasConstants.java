@@ -12,6 +12,7 @@ public class NotasConstants {
     private final static String NOTAS = "notas";
     private final static String FALTAS = "faltas";
     private final static String BIMESTRE = "bimestre";
+    private final static String DATA = "data";
     private final static String TABLE = "NOTAS";
 
 
@@ -33,7 +34,9 @@ public class NotasConstants {
         builder.append(FALTAS);
         builder.append(" INTEGER NOT NULL, ");
         builder.append(BIMESTRE);
-        builder.append(" INTEGER NOT NULL);");
+        builder.append(" INTEGER NOT NULL, ");
+        builder.append(DATA);
+        builder.append(" TEXT NOT NULL);");
 
 
 
@@ -41,6 +44,10 @@ public class NotasConstants {
 
     }
 
+
+    public static String getDATA() {
+        return DATA;
+    }
 
     public static String getID() {
         return ID;

@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:textColor="@color/recyclerColor"
         android:id="@+id/materia_anterior"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,6 +16,7 @@
         android:layout_marginStart="42dp" />
 
     <TextView
+        android:textColor="@color/recyclerColor"
         android:id="@+id/nota_anterior"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,6 +27,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
+        android:textColor="@color/recyclerColor"
         android:id="@+id/falta_anterior"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

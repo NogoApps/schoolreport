@@ -27,7 +27,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:textColor="@color/txtColor"
+        android:textColor="@color/recyclerColor"
         android:id="@+id/nota2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -23,6 +23,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(List<ProvaDomain> provaArray) {
 
         this.provaArray = provaArray;
+        Log.d("ViewHolder", "Constructor Chamado");
 
     }
 
@@ -32,7 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         for (ProvaDomain provaDomain : provaArray) {
 
-            Log.d("Array", String.valueOf(provaDomain.getNota()));
+            Log.d("ArrayOsNovos", String.valueOf(provaDomain.getNota()));
 
         }
 
@@ -49,6 +50,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+
+        Log.d("ViewHolder", "ViewHolderChamado");
+
+
 
         ProvaDomain provaDomain = provaArray.get(position);
 

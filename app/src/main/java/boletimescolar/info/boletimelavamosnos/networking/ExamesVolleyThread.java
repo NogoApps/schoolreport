@@ -1,4 +1,4 @@
-package boletimescolar.info.boletimelavamosnos.controler.volleythread;
+package boletimescolar.info.boletimelavamosnos.networking;
 
 import android.content.Context;
 import android.util.Log;
@@ -27,23 +27,18 @@ import boletimescolar.info.boletimelavamosnos.sqlite.adapter.SqliteExamesAdapter
 public class ExamesVolleyThread extends Request<JSONObject> {
 
     private Response.Listener<JSONObject> response;
-    private Map<String, String> params;
 
     private Context context;
 
 
-    public ExamesVolleyThread(Context context, int method, String url, Map<String, String> params, Response.Listener<JSONObject> response, Response.ErrorListener listener) {
+    public ExamesVolleyThread(Context context, int method, String url, Response.Listener<JSONObject> response, Response.ErrorListener listener) {
         super(method, url, listener);
-        this.params = params;
         this.response = response;
         this.context = context;
 
     }
 
-    @Override
-    public Map<String, String> getParams() throws AuthFailureError {
-        return params;
-    }
+
 
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
@@ -64,8 +59,9 @@ public class ExamesVolleyThread extends Request<JSONObject> {
 
                 exameDomain.setId_exame(Long.valueOf(array.getString("ID_EXAME")));
                 exameDomain.setBimestre(Integer.valueOf(array.getString("BIMESTRE")));
-                exameDomain.setMateria(Integer.valueOf(array.getString("MATERIA")));
                 exameDomain.setData(array.getString("DATA"));
+                exameDomain.setMateria(Integer.valueOf(array.getString("MATERIA")));
+
 
 
 

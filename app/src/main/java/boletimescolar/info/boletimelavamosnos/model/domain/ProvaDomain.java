@@ -11,17 +11,19 @@ public class ProvaDomain {
     private int materia;
     private int faltas;
     private int bimestre;
+    private String data;
 
     public ProvaDomain() {
     }
 
 
-    public ProvaDomain(long id_prova, int materia, double nota, int faltas, int bimestre) {
+    public ProvaDomain(long id_prova, int materia, double nota, int faltas, int bimestre, String data) {
         this.id_prova = id_prova;
         this.materia = materia;
         this.nota = nota;
         this.faltas = faltas;
         this.bimestre = bimestre;
+        this.data = data;
     }
 
     public long getId_prova() {
@@ -33,7 +35,13 @@ public class ProvaDomain {
     }
 
 
+    public String getData() {
+        return data;
+    }
 
+    public void setData(String data) {
+        this.data = data;
+    }
 
     public double getNota() {
         return nota;

@@ -15,7 +15,7 @@
         android:textAppearance="?android:textAppearanceMedium" />
 
     <TextView
-        android:textColor="@color/txtColor"
+        android:textColor="@color/recyclerColor"
         android:id="@+id/falta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:layout_marginEnd="54dp" />
 
     <TextView
-        android:textColor="@color/txtColor"
+        android:textColor="@color/recyclerColor"
         android:id="@+id/nota"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

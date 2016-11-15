@@ -11,4 +11,5 @@
     <color name="txtColor">#000000</color>
 
     <color name="loginBackground">#90CAF9</color>
+    <color name="recyclerColor">#03A9F4</color>
 </resources>

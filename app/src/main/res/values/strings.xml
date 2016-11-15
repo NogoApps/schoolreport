@@ -23,7 +23,8 @@
     <string name="quimica">Química</string>
     <string name="exames_data">Próximos exames</string>
     <string name="sem_provas">Está sem provas para este bimestre</string>
-    <string name="precisa_recuperar">O que eu preciso recuperar:</string>
+    <string name="precisa_recuperar">Preciso recuperar:</string>
+    <string name="pesquisar">Pesquisar</string>
 
     <string-array name="opcoes_ano">
 
